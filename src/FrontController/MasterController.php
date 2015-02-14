@@ -2,17 +2,19 @@
 
 namespace Masterclass\FrontController;
 
-use Masterclass\Model\Index;
+use Masterclass\Controller\Index;
 
 class MasterController {
     
     private $config;
     
-    public function __construct($config) {
+    public function __construct($config) 
+    {
         $this->_setupConfig($config);
     }
     
-    public function execute() {
+    public function execute() 
+    {
         $call = $this->_determineControllers();
         $call_class = $call['call'];
         $class = ucfirst(array_shift($call_class));
@@ -41,11 +43,10 @@ class MasterController {
                 $controller_details = $v;
                 $path_string = array_shift($matches);
                 $arguments = $matches;
-                $controller_method = explode('/', $controller_details);
+                $controller_method = explode(':', $controller_details);
                 $return = array('call' => $controller_method);
             }
         }
-        
         return $return;
     }
     

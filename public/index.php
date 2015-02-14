@@ -8,17 +8,7 @@ require_once $path . '/vendor/autoload.php';
 
 $configuration = require $path . '/config/config.php';
 
-require_once($path . '/src/FrontController/MasterController.php');
-require_once($path . '/src/Model/Index.php');
-require_once($path . '/src/Model/Comment.php');
-require_once($path . '/src/Model/Story.php');
-require_once($path . '/src/Model/User.php');
+$configuration['path'] = $path;
 
-use \Masterclass\FrontController\MasterController;
-use \Masterclass\Model\Index;
-use \Masterclass\Model\Comment;
-use \Masterclass\Model\Story;
-use \Masterclass\Model\User;
-
-$framework = new MasterController($configuration);
+$framework = new \Masterclass\FrontController\MasterController($configuration);
 echo $framework->execute();

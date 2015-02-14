@@ -1,12 +1,15 @@
 <?php
 
-namespace Masterclass\Model;
+namespace Masterclass\Controller;
+
+use PDO;
 
 class User {
     
     public $db;
     
     public function __construct($config) {
+        $this->config = $config;
         $dbconfig = $config['database'];
         $dsn = 'mysql:host=' . $dbconfig['host'] . ';dbname=' . $dbconfig['name'];
         $this->db = new PDO($dsn, $dbconfig['user'], $dbconfig['pass']);
@@ -151,7 +154,7 @@ class User {
             </form>
         ';
         
-        require_once('layout.phtml');
+        require $this->config['path'] . '/layout.phtml';
         
     }
     

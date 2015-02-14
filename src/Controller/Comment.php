@@ -1,6 +1,8 @@
 <?php
 
-namespace Masterclass\Model;
+namespace Masterclass\Controller;
+
+use PDO;
 
 class Comment {
     
