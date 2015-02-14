@@ -7,10 +7,9 @@ use Masterclass\Model\Story as StoryModel;
 
 class Story {
     
-    public function __construct($config) {
-        $this->config = $config;
-        $this->storyModel = new StoryModel($config);
-        $this->commentModel = new CommentModel($config);
+    public function __construct(StoryModel $story, CommentModel $comment) {
+        $this->storyModel = $story;
+        $this->commentModel = $comment;
     }
     
     public function index() {
@@ -53,7 +52,7 @@ class Story {
             ';
         }
         
-        require_once 'layout.phtml';
+        require '../layout.phtml';
         
     }
     
@@ -85,7 +84,7 @@ class Story {
             </form>
         ';
         
-        require $this->config['path'] . '/layout.phtml';
+        require '../layout.phtml';
     }
     
 }

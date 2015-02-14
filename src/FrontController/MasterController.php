@@ -2,15 +2,18 @@
 
 namespace Masterclass\FrontController;
 
-use Masterclass\Controller\Index;
+use Aura\Di\Container;
 
 class MasterController {
     
-    private $config;
+    protected $container;
+
+    protected $config;
     
-    public function __construct($config) 
+    public function __construct(Container $container, array $config = []) 
     {
-        $this->_setupConfig($config);
+        $this->config = $config;
+        $this->container = $container;
     }
     
     public function execute() 
@@ -19,11 +22,11 @@ class MasterController {
         $call_class = $call['call'];
         $class = ucfirst(array_shift($call_class));
         $method = array_shift($call_class);
-        $o = new $class($this->config);
+        $o = $this->container->newInstance($class);
         return $o->$method();
     }
     
-    private function _determineControllers()
+    protected function _determineControllers()
     {
         if (isset($_SERVER['REDIRECT_BASE'])) {
             $rb = $_SERVER['REDIRECT_BASE'];
@@ -48,10 +51,6 @@ class MasterController {
             }
         }
         return $return;
-    }
-    
-    private function _setupConfig($config) {
-        $this->config = $config;
     }
     
 }

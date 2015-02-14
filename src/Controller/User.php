@@ -8,9 +8,8 @@ class User {
     
     public $db;
     
-    public function __construct($config) {
-        $this->config = $config;
-        $this->UserModel = new UserModel($config);
+    public function __construct(UserModel $user) {
+        $this->UserModel = $user;
     }
     
     public function create() {
@@ -67,7 +66,7 @@ class User {
             </form>
         ';
         
-        require_once $this->config['path'] . '/layout.phtml';
+        require '../layout.phtml';
         
     }
     
@@ -109,7 +108,7 @@ class User {
             <input type="submit" name="updatepw" value="Create User" />
         </form>';
         
-        require_once $this->config['path'] . '/layout.phtml';
+        require '../layout.phtml';
     }
     
     public function login() {
@@ -141,7 +140,7 @@ class User {
             </form>
         ';
         
-        require $this->config['path'] . '/layout.phtml';
+        require '../layout.phtml';
         
     }
     

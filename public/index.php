@@ -6,9 +6,12 @@ session_start();
 $path = realpath(__DIR__ . '/..');
 require_once $path . '/vendor/autoload.php';
 
-$configuration = require $path . '/config/config.php';
+$config = require $path . '/config/config.php';
 
-$configuration['path'] = $path;
+$config['path'] = $path;
 
-$framework = new \Masterclass\FrontController\MasterController($configuration);
+require_once($path . '/config/diconfig.php');
+$framework = $di->newInstance('Masterclass\FrontController\MasterController');
+
+// $framework = new \Masterclass\FrontController\MasterController($configuration);
 echo $framework->execute();
