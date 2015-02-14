@@ -2,7 +2,7 @@
 
 namespace Masterclass\Controller;
 
-use PDO;
+use Masterclass\Model\User as UserModel;
 
 class User {
     
@@ -10,10 +10,7 @@ class User {
     
     public function __construct($config) {
         $this->config = $config;
-        $dbconfig = $config['database'];
-        $dsn = 'mysql:host=' . $dbconfig['host'] . ';dbname=' . $dbconfig['name'];
-        $this->db = new PDO($dsn, $dbconfig['user'], $dbconfig['pass']);
-        $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $this->UserModel = new UserModel($config);
     }
     
     public function create() {
@@ -39,9 +36,7 @@ class User {
             }
             
             if(is_null($error)) {
-                $check_sql = 'SELECT * FROM user WHERE username = ?';
-                $check_stmt = $this->db->prepare($check_sql);
-                $check_stmt->execute(array($_POST['username']));
+                $check_stmt = $this->UserModel->getByUsername($_POST['username']);
                 if($check_stmt->rowCount() > 0) {
                     $error = 'Your chosen username already exists. Please choose another.';
                 }
@@ -54,9 +49,7 @@ class User {
                     md5($_POST['username'] . $_POST['password']),
                 );
             
-                $sql = 'INSERT INTO user (username, email, password) VALUES (?, ?, ?)';
-                $stmt = $this->db->prepare($sql);
-                $stmt->execute($params);
+                $this->UserModel->create($params[0], $params[1], $params[2]);
                 header("Location: /user/login");
                 exit;
             }
@@ -74,7 +67,7 @@ class User {
             </form>
         ';
         
-        require_once 'layout.phtml';
+        require_once $this->config['path'] . '/layout.phtml';
         
     }
     
@@ -101,10 +94,7 @@ class User {
             }
         }
         
-        $dsql = 'SELECT * FROM user WHERE username = ?';
-        $stmt = $this->db->prepare($dsql);
-        $stmt->execute(array($_SESSION['username']));
-        $details = $stmt->fetch(PDO::FETCH_ASSOC);
+        $details = $this->UserModel->getByUsername($_SESSION['username']);
         
         $content = '
         ' . $error . '<br />
@@ -119,7 +109,7 @@ class User {
             <input type="submit" name="updatepw" value="Create User" />
         </form>';
         
-        require_once 'layout.phtml';
+        require_once $this->config['path'] . '/layout.phtml';
     }
     
     public function login() {
@@ -129,11 +119,8 @@ class User {
             $username = $_POST['user'];
             $password = $_POST['pass'];
             $password = md5($username . $password); // THIS IS NOT SECURE. DO NOT USE IN PRODUCTION.
-            $sql = 'SELECT * FROM user WHERE username = ? AND password = ? LIMIT 1';
-            $stmt = $this->db->prepare($sql);
-            $stmt->execute(array($username, $password));
-            if($stmt->rowCount() > 0) {
-               $data = $stmt->fetch(PDO::FETCH_ASSOC); 
+            $data = $this->UserModel->login($username, $password);
+            if(count($data) > 0) {
                session_regenerate_id();
                $_SESSION['username'] = $data['username'];
                $_SESSION['AUTHENTICATED'] = true;
