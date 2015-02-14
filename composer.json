@@ -10,7 +10,9 @@
             "email": "kimcity@gmail.com"
         }
     ],
-    "require": {},
+    "require": {
+        "aura/di": "~2.1"
+    },
     "autoload": {
         "psr-4" : {
             "Masterclass\\" : "src/"
