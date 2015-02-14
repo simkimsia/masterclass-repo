@@ -1,5 +1,7 @@
 <?php
  
+namespace Masterclass\Model;
+
 class Index {
     
     protected $db;

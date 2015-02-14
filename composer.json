@@ -1,0 +1,21 @@
+{
+    "name": "simkimsia/masterclass-repo",
+    "authors": [
+        {
+            "name": "Brandon Savage",
+            "email": "brandon@brandonsavage.net"
+        },
+        {
+            "name": "KimSia Sim",
+            "email": "kimcity@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4" : {
+            "Masterclass\\" : "src/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.4"
+    }
+}

@@ -1,5 +1,9 @@
 <?php
 
+namespace Masterclass\FrontController;
+
+use Masterclass\Model\Index;
+
 class MasterController {
     
     private $config;

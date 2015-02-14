@@ -1,5 +1,7 @@
 <?php
 
+namespace Masterclass\Model;
+
 class User {
     
     public $db;

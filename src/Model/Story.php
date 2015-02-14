@@ -1,5 +1,7 @@
 <?php
 
+namespace Masterclass\Model;
+
 class Story {
     
     public function __construct($config) {

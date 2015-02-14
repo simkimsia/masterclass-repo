@@ -1,5 +1,7 @@
 <?php
 
+namespace Masterclass\Model;
+
 class Comment {
     
     public function __construct($config) {
